@@ -5,9 +5,9 @@ const octokit = new Octokit({
 });
 
 try {
-    const result = await octokit.request("GET /repos/{owner}/{repo}/issues", {
-        owner: "octocat",
-        repo: "Spoon-Knife",
+    const result = await octokit.request("GET /repos/{owner}/{repo}/commits", {
+        owner: "dchang-koverse",
+        repo: "custom-changelog",
     });
     console.log('result', result.data)
 
