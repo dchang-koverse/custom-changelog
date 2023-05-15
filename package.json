@@ -4,6 +4,7 @@
   "description": "script to write a custom changelog from GitHub commits",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "octokit": "^2.0.14"
   }
