@@ -1,22 +1,23 @@
 import { Octokit } from "octokit"
 
 const octokit = new Octokit({
-  auth: process.env.TOKEN
+    // auth: process.env.TOKEN
 });
 
 try {
-  const result = await octokit.request("GET /repos/{owner}/{repo}/issues", {
-      owner: "octocat",
-      repo: "Spoon-Knife",
+    const result = await octokit.request("GET /repos/{owner}/{repo}/issues", {
+        owner: "octocat",
+        repo: "Spoon-Knife",
     });
+    console.log('result', result.data)
 
-  const titleAndAuthor = result.data.map(issue => {
-    title: issue.title,
-    authorID: issue.user.id
-  })
+    // const titleAndAuthor = result.data.map(issue => {
+    //     title: issue.title,
+    //     authorID: issue.user.id
+    // })
 
-  console.log(titleAndAuthor)
+    // console.log(titleAndAuthor)
 
 } catch (error) {
-  console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
+    console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
 }
