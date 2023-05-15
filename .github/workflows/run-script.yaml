@@ -1,5 +1,7 @@
 on:
-    workflow_dispatch:
+    push:
+        branches:
+            - main
 
 jobs:
     use_api_via_script:
