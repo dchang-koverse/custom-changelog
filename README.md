@@ -14,6 +14,10 @@ Fix: Drill down `git diff` from GitHub API
 
 Chore: Peruse the `commit` object
 
-# v1.0.6
+## v1.0.6
 
 Chore: Print list of `commit`s
+
+## v1.0.7
+
+Fix: Fix issue in `Object.map`

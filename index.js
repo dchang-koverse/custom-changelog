@@ -83,7 +83,7 @@ const createChangeLog = async () => {
         console.log('commitObjects:', commitObjects)
 
         const commitMessages = commitObjects.map(commitObject => {
-            return commit.message
+            return commitObject.message
         })
         console.log('commitMessages:', commitMessages)
     } catch (error) {
