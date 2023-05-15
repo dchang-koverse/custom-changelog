@@ -4,43 +4,20 @@ const octokit = new Octokit({
     // auth: process.env.TOKEN
 });
 
-const getCommitMessages = async () => {
-    try {
-        console.log('\nGETting commit messages')
-        const result = await octokit.request("GET /repos/{owner}/{repo}/commits", {
-            owner: "dchang-koverse",
-            repo: "custom-changelog",
-        });
-    
-        const messages = result.data.map(datum => datum.commit.message)
-        console.log('commit messages: {messages}\n', { messages })
-    
-        return messages
-    } catch (error) {
-        console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
-    }
-}
-
-const getTags = async () => {
-    try {
-        console.log('\nGETting tags')
-        const result = await octokit.request("GET /repos/{owner}/{repo}/tags", {
-            owner: "dchang-koverse",
-            repo: "custom-changelog",
-        });
-    
-        const tags = result.data.map(datum => {
-            return {
-                tagName: datum.name,
-                commit: datum.commit.sha,
-            }
-        })
-        console.log('tags: {tags}\n', { tags })
-        return tags
-    } catch (error) {
-        console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
-    }
-}
+const CHANGE_TYPES = [
+    'feat',
+    'fix',
+    'docs',
+    'style',
+    'refactor',
+    'perf',
+    'test',
+    'chore',
+    'revert',
+    'ci',
+    'build',
+    'other',
+]
 
 const createChangeLog = async () => {
     try {
@@ -80,12 +57,23 @@ const createChangeLog = async () => {
         const commitObjects = commits.map(commit => {
             return commit.commit
         })
-        console.log('commitObjects:', commitObjects)
+        // console.log('commitObjects:', commitObjects)
 
         const commitMessages = commitObjects.map(commitObject => {
             return commitObject.message
         })
         console.log('commitMessages:', commitMessages)
+
+        // Map values for CHANGELOG
+        // Map<String, String[]>
+        const changeLogMap = new Map();
+        CHANGE_TYPES.forEach(changeType => {
+            const filteredMessages = commitMessages.filter(commitMessage => commitMessage.startsWith(changeTyep));
+            changeLogMap.set(changeType, filteredMessages);
+        });
+
+        console.log('changeLogMap:', changeLogMap)
+
     } catch (error) {
         console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
     }
