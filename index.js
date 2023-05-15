@@ -69,10 +69,15 @@ const createChangeLog = async () => {
         const changeLogMap = new Map();
 
         CHANGE_TYPES.forEach(changeType => {
-            const filteredMessages = commitMessages.filter(commitMessage => commitMessage.startsWith(changeType));
+            const filteredMessages = commitMessages
+                .map(message => message.trim())
+                .filter(commitMessage => commitMessage.startsWith(changeType));
             if (filteredMessages.length > 0) {
-                // trim off changeType
-                const trimmedMessages = filteredMessages.map(filteredMessage => filteredMessage.substring(changeType.length + 1))
+                // cleaning messages
+                const trimmedMessages = filteredMessages
+                    .map(filteredMessage => filteredMessage.substring(changeType.length))
+                    .map(message => message.replace(')', ''))
+                    
                 changeLogMap.set(changeType, trimmedMessages);                
             }
         });
