@@ -67,9 +67,12 @@ const createChangeLog = async () => {
         // Map values for CHANGELOG
         // Map<String, String[]>
         const changeLogMap = new Map();
+
         CHANGE_TYPES.forEach(changeType => {
-            const filteredMessages = commitMessages.filter(commitMessage => commitMessage.startsWith(changeTyep));
-            changeLogMap.set(changeType, filteredMessages);
+            const filteredMessages = commitMessages.filter(commitMessage => commitMessage.startsWith(changeType));
+            if (filteredMessages.length > 0) {
+                changeLogMap.set(changeType, filteredMessages);                
+            }
         });
 
         console.log('changeLogMap:', changeLogMap)
