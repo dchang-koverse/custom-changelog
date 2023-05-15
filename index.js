@@ -58,17 +58,17 @@ const createChangeLog = async () => {
         })
         console.log('tags: {tags}\n', { tags })
 
-        const olderTag = tags[0].tagName
-        const newerTag = tags[1].tagName
-        console.log('olderTag: {olderTag}\n', { olderTag })
-        console.log('newerTag: {newerTag}\n', { newerTag })
+        const latestTag = tags[1].tagName
+        const newestTag = tags[0].tagName
+        console.log('latestTag: {latestTag}\n', { latestTag })
+        console.log('newestTag: {newestTag}\n', { newestTag })
 
         // get diff between tags
-        const comparedResults = await octokit.request("GET /repos/{owner}/{repo}/compare/{olderTag}...{newerTag}", {
+        const comparedResults = await octokit.request("GET /repos/{owner}/{repo}/compare/{latestTag}...{newestTag}", {
             owner: "dchang-koverse",
             repo: "custom-changelog",
-            olderTag,
-            newerTag,
+            latestTag,
+            newestTag,
         });
 
         console.log('comparedResults: {comparedResults}\n', { comparedResults })
