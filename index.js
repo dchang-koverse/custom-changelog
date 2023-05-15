@@ -88,6 +88,4 @@ const createChangeLog = async () => {
     }
 }
 
-// getCommitMessages()
-// getTags()
 createChangeLog()
