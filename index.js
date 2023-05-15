@@ -85,6 +85,14 @@ const createChangeLog = async () => {
 
         // Write to CHANGELOG.md
         console.log('Writing to CHANGELOG.md')
+
+        console.log('Current directory', process.cwd())
+
+        const file = 'CHANGELOG.md'
+        access(file, constants.F_OK, (err) => {
+            console.log(`${file} ${err ? 'does not exist' : 'exists'}`);
+        });
+
         const fs = require('fs');
         const path = require('path');
         const filePath = path.join(__dirname, 'CHANGELOG.md')

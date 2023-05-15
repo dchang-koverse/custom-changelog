@@ -2,6 +2,12 @@
 
 This repo uses the GitHub API and GitHub Actions to automatically create a changelog from conventional commits when a tag is pushed to this repo.
 
+## v1.0.16
+
+### Chore
+
+- (ci): check what current directory is
+
 ## v1.0.15
 
 ### Feat
