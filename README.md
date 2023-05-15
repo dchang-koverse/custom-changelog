@@ -9,3 +9,11 @@ Fix: Updated script to assign correct dates to `latestTag` and `newestTag`
 ## v1.0.4
 
 Fix: Drill down `git diff` from GitHub API
+
+## v1.0.5
+
+Chore: Peruse the `commit` object
+
+# v1.0.6
+
+Chore: Print list of `commit`s

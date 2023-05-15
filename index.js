@@ -75,12 +75,17 @@ const createChangeLog = async () => {
         }
         
         const commits = comparedResults.data.commits
-        console.log('commits:', commits)
+        // console.log('commits:', commits)
 
         const commitObjects = commits.map(commit => {
             return commit.commit
         })
         console.log('commitObjects:', commitObjects)
+
+        const commitMessages = commitObjects.map(commitObject => {
+            return commit.message
+        })
+        console.log('commitMessages:', commitMessages)
     } catch (error) {
         console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
     }
