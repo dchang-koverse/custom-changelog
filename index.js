@@ -87,6 +87,8 @@ const createChangeLog = async () => {
         console.log('Writing to CHANGELOG.md')
 
         console.log('Current directory', process.cwd())
+        const files = fs.readdirSync('.');
+        console.log('files', files)
 
         const file = 'CHANGELOG.md'
         access(file, constants.F_OK, (err) => {
