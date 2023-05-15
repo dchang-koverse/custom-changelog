@@ -83,6 +83,34 @@ const createChangeLog = async () => {
 
         console.log('changeLogMap:', changeLogMap)
 
+        // Write to CHANGELOG.md
+        console.log('Writing to CHANGELOG.md')
+        const fs = require('fs');
+        const path = require('path');
+        const filePath = path.join(__dirname, 'CHANGELOG.md')
+        const stream = fs.createWriteStream(filePath, {flags:'a'});
+        stream.write(`\n\n## ${newestTag} (${new Date().toISOString().slice(0, 10)})\n`)
+        changeLogMap.forEach((value, key) => {
+            stream.write(`\n### ${key}\n`)
+            value.forEach(message => {
+                stream.write(`- ${message}\n`)
+            })
+        }
+        )
+        stream.end();
+
+        // Add git commit
+        console.log('Adding git commit')
+        const { exec } = require("child_process");
+        exec("git add . && git commit -m 'chore: update CHANGELOG.md'", (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.error(`stderr: ${stderr}`);
+        })
+
     } catch (error) {
         console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
     }
