@@ -122,7 +122,7 @@ const createChangeLog = async () => {
         })
 
     } catch (error) {
-        console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
+        console.log(`Error! Status: ${error}`)
     }
 }
 
