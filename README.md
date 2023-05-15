@@ -2,7 +2,11 @@
 
 This repo uses the GitHub API and GitHub Actions to automatically create a changelog from conventional commits when a tag is pushed to this repo.
 
-## V1.0.10
+## v1.0.11
+
+Chore(ci): remove change type from message
+
+## v1.0.10
 
 Docs(readme): update documentation
 
