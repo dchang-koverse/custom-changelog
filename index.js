@@ -1,4 +1,6 @@
 import { Octokit } from "octokit"
+import fs from 'fs';
+import path from 'path';
 
 const octokit = new Octokit({
     // auth: process.env.TOKEN
@@ -87,7 +89,6 @@ const createChangeLog = async () => {
         console.log('Writing to CHANGELOG.md')
 
         console.log('Current directory', process.cwd())
-        const fs = require('fs');
         const files = fs.readdirSync('.');
         console.log('files', files)
 
@@ -96,7 +97,6 @@ const createChangeLog = async () => {
             console.log(`${file} ${err ? 'does not exist' : 'exists'}`);
         });
 
-        const path = require('path');
         const filePath = path.join(__dirname, 'CHANGELOG.md')
         const stream = fs.createWriteStream(filePath, {flags:'a'});
         stream.write(`\n\n## ${newestTag} (${new Date().toISOString().slice(0, 10)})\n`)
