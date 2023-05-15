@@ -2,6 +2,10 @@
 
 This repo uses the GitHub API and GitHub Actions to automatically create a changelog from conventional commits when a tag is pushed to this repo.
 
+## v1.0.9
+
+Chore(ci): map commit messages based on their type
+
 ## v1.0.8
 
 Chore: Flip order of manual changelog
