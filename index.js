@@ -44,7 +44,7 @@ const getTags = async () => {
 
 const createChangeLog = async () => {
     try {
-        console.log('GETting tags')
+        console.log('\nCreating CHANGELOG')
         const result = await octokit.request("GET /repos/{owner}/{repo}/tags", {
             owner: "dchang-koverse",
             repo: "custom-changelog",
@@ -56,12 +56,9 @@ const createChangeLog = async () => {
                 commit: datum.commit.sha,
             }
         })
-        console.log('tags: {tags}\n', { tags })
 
         const latestTag = tags[1].tagName
         const newestTag = tags[0].tagName
-        console.log('latestTag: {latestTag}\n', { latestTag })
-        console.log('newestTag: {newestTag}\n', { newestTag })
 
         // get diff between tags
         const comparedResults = await octokit.request("GET /repos/{owner}/{repo}/compare/{latestTag}...{newestTag}", {
@@ -71,7 +68,14 @@ const createChangeLog = async () => {
             newestTag,
         });
 
-        console.log('comparedResults: {comparedResults}\n', { comparedResults })
+        const numCommits = comparedResults.data.commits.length
+
+        if (numCommits <= 0) {
+            console.error('No commits found between tags')
+        }
+        
+        const commitMessages = comparedResults.data.commits
+        console.log('commitMessages: {commitMessages}\n', { commitMessages })
 
     } catch (error) {
         console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
@@ -79,5 +83,5 @@ const createChangeLog = async () => {
 }
 
 // getCommitMessages()
-getTags()
+// getTags()
 createChangeLog()
