@@ -5,3 +5,7 @@ This repo uses the GitHub API and GitHub Actions to automatically create a chang
 ## v1.0.3
 
 Fix: Updated script to assign correct dates to `latestTag` and `newestTag`
+
+## v1.0.4
+
+Fix: Drill down `git diff` from GitHub API
