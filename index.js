@@ -74,9 +74,13 @@ const createChangeLog = async () => {
             console.error('No commits found between tags')
         }
         
-        const commitMessages = comparedResults.data.commits
-        console.log('commitMessages: {commitMessages}\n', { commitMessages })
+        const commits = comparedResults.data.commits
+        console.log('commits:', commits)
 
+        const commitObjects = commits.map(commit => {
+            return commit.commit
+        })
+        console.log('commitObjects:', commitObjects)
     } catch (error) {
         console.log(`Error! Status: ${error.status}. Message: ${error.response.data.message}`)
     }
