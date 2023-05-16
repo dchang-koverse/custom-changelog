@@ -82,28 +82,35 @@ const createChangeLog = async () => {
         // Write to CHANGELOG.md
         console.log('Writing to CHANGELOG.md')
 
-        if (fs.existsSync(CHANGELOG_FILE_PATH)) {
-            console.log("CHANGELOG exists");
-            const stream = fs.createWriteStream(CHANGELOG_FILE_PATH, {flags:'a'});
-            stream.write(`\n\n## ${newestTag} (${new Date().toISOString().slice(0, 10)})\n`)
-            changeLogMap.forEach((value, key) => {
-                stream.write(`\n### ${key}\n\n`)
-                value.forEach(message => {
-                    stream.write(`- ${message}\n`)
-                })
-                stream.write(`\n\n`)
-            })
-            stream.end();
-        } else {
-            console.log("DOES NOT exist:", CHANGELOG_FILE_PATH);
+        if (!fs.existsSync(CHANGELOG_FILE_PATH)) {
+            // create it
         }
+        console.log("CHANGELOG exists");
+        const data = fs.readFileSync(CHANGELOG_FILE_PATH).toString().split("\n");
+
+        data.splice(2, 0, '## ${newestTag}\n');
+
+        changeLogMap.forEach((value, key) => {
+            data.splice(3, 0, `### ${key}\n`);
+            value.forEach(message => {
+                data.splice(4, 0, `- ${message}`);
+            })
+        })
+
+        var editedText = data.join("\n");
+
+        console.log('editedText:', editedText);
+
+        fs.writeFile(CHANGELOG_FILE_PATH, editedText, function (err) {
+            if (err) return err;
+        });
 
         console.log('Wrote to CHANGELOG')
 
         // Read CHANGELOG to verify changes
         console.log('Reading CHANGELOG.md')
-        const data = fs.readFileSync(CHANGELOG_FILE_PATH, 'utf8')
-        console.log('data:', data)
+        const fileContents = fs.readFileSync(CHANGELOG_FILE_PATH, 'utf8')
+        console.log('fileContents:', fileContents)
     } catch (error) {
         console.log(`Error! Status: ${error}`)
     }
