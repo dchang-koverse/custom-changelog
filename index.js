@@ -1,6 +1,5 @@
 import { Octokit } from "octokit"
 import fs from 'fs';
-import path from 'path';
 
 const octokit = new Octokit({
     // auth: process.env.TOKEN
@@ -22,6 +21,21 @@ const CHANGE_TYPES = [
     'build',
     'other',
 ]
+
+const CHANGE_TYPE_TO_HEADER = {
+    'feat': 'Features',
+    'fix': 'Bug Fixes',
+    'docs': 'Documentation',
+    'style': 'Styles',
+    'refactor': 'Code Refactoring',
+    'perf': 'Performance Improvements',
+    'test': 'Tests',
+    'chore': 'Chores',
+    'revert': 'Reverts',
+    'ci': 'Continuous Integration',
+    'build': 'Build System',
+    'other': 'Other Changes',
+}
 
 const createChangeLog = async () => {
     try {
@@ -77,21 +91,25 @@ const createChangeLog = async () => {
             }
         });
 
-        console.log('changeLogMap:', changeLogMap)
+        // console.log('changeLogMap:', changeLogMap)
 
         // Write to CHANGELOG.md
         console.log('Writing to CHANGELOG.md')
 
         if (!fs.existsSync(CHANGELOG_FILE_PATH)) {
             // create it
+            console.log('CHANGELOG file does not exist--creating CHANGELOG.md')
+            const data = fs.readFileSync(CHANGELOG_FILE_PATH).toString().split("\n");
+            data.splice(0, 0, `# CHANGELOG\n`);
+            fs.writeFile(CHANGELOG_FILE_PATH, editedText, function (err) {
+                if (err) return err;
+            });
         }
-        console.log("CHANGELOG exists");
-        const data = fs.readFileSync(CHANGELOG_FILE_PATH).toString().split("\n");
 
-        data.splice(2, 0, '## ${newestTag}\n');
+        data.splice(2, 0, `## ${newestTag}\n`);
 
         changeLogMap.forEach((value, key) => {
-            data.splice(3, 0, `### ${key}\n`);
+            data.splice(3, 0, `### ${CHANGE_TYPE_TO_HEADER[key]}\n`);
             value.forEach(message => {
                 data.splice(4, 0, `- ${message}`);
             })
@@ -107,10 +125,6 @@ const createChangeLog = async () => {
 
         console.log('Wrote to CHANGELOG')
 
-        // Read CHANGELOG to verify changes
-        console.log('Reading CHANGELOG.md')
-        const fileContents = fs.readFileSync(CHANGELOG_FILE_PATH, 'utf8')
-        console.log('fileContents:', fileContents)
     } catch (error) {
         console.log(`Error! Status: ${error}`)
     }
