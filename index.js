@@ -98,18 +98,12 @@ const createChangeLog = async () => {
             console.log("DOES NOT exist:", CHANGELOG_FILE_PATH);
         }
 
-        // Add git commit
-        console.log('Adding git commit')
-        const { exec } = require("child_process");
-        exec("git add . && git commit -m 'chore: update CHANGELOG.md'", (error, stdout, stderr) => {
-            if (error) {
-                console.error(`exec error: ${error}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-            console.error(`stderr: ${stderr}`);
-        })
+        console.log('Wrote to CHANGELOG')
 
+        // Read CHANGELOG to verify changes
+        console.log('Reading CHANGELOG.md')
+        const data = fs.readFileSync(CHANGELOG_FILE_PATH, 'utf8')
+        console.log('data:', data)
     } catch (error) {
         console.log(`Error! Status: ${error}`)
     }

@@ -2,7 +2,13 @@
 
 This repo uses the GitHub API and GitHub Actions to automatically create a changelog from conventional commits when a tag is pushed to this repo.
 
-## v1.0.18-alpha.3
+## v1.0.18-alpha.5
+
+### Chore
+
+- (ci): print contents of changelog
+
+## v1.0.18-alpha.4
 
 ### Chore
 
