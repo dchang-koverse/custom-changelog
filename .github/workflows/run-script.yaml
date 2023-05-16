@@ -37,6 +37,4 @@ jobs:
         with:
           message: 'chore: update changelog'
           add: 'CHANGELOG.md'
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
           push: 'origin HEAD:refs/heads/main'
