@@ -6,6 +6,8 @@ const octokit = new Octokit({
     // auth: process.env.TOKEN
 });
 
+const CHANGELOG_FILE_PATH = './CHANGELOG.md'
+
 const CHANGE_TYPES = [
     'feat',
     'fix',
@@ -23,7 +25,7 @@ const CHANGE_TYPES = [
 
 const createChangeLog = async () => {
     try {
-        console.log('\nCreating CHANGELOG')
+        console.log('\nUpserting CHANGELOG')
         const result = await octokit.request("GET /repos/{owner}/{repo}/tags", {
             owner: "dchang-koverse",
             repo: "custom-changelog",
@@ -53,17 +55,9 @@ const createChangeLog = async () => {
             console.error('No commits found between tags')
         }
         
-        const commits = comparedResults.data.commits
-        // console.log('commits:', commits)
+        const commitMessages = comparedResults.data.commits
+            .map(commit => commit.commit.message)
 
-        const commitObjects = commits.map(commit => {
-            return commit.commit
-        })
-        // console.log('commitObjects:', commitObjects)
-
-        const commitMessages = commitObjects.map(commitObject => {
-            return commitObject.message
-        })
         console.log('commitMessages:', commitMessages)
 
         // Map values for CHANGELOG
@@ -88,26 +82,21 @@ const createChangeLog = async () => {
         // Write to CHANGELOG.md
         console.log('Writing to CHANGELOG.md')
 
-        console.log('Current directory', process.cwd())
-        const files = fs.readdirSync('.');
-        console.log('files', files)
-
-        const file = 'CHANGELOG.md'
-        access(file, constants.F_OK, (err) => {
-            console.log(`${file} ${err ? 'does not exist' : 'exists'}`);
-        });
-
-        const filePath = path.join(__dirname, 'CHANGELOG.md')
-        const stream = fs.createWriteStream(filePath, {flags:'a'});
-        stream.write(`\n\n## ${newestTag} (${new Date().toISOString().slice(0, 10)})\n`)
-        changeLogMap.forEach((value, key) => {
-            stream.write(`\n### ${key}\n`)
-            value.forEach(message => {
-                stream.write(`- ${message}\n`)
+        if (fs.existsSync(CHANGELOG_FILE_PATH)) {
+            console.log("CHANGELOG exists");
+            const stream = fs.createWriteStream(CHANGELOG_FILE_PATH, {flags:'a'});
+            stream.write(`\n\n## ${newestTag} (${new Date().toISOString().slice(0, 10)})\n`)
+            changeLogMap.forEach((value, key) => {
+                stream.write(`\n### ${key}\n\n`)
+                value.forEach(message => {
+                    stream.write(`- ${message}\n`)
+                })
+                stream.write(`\n\n`)
             })
+            stream.end();
+        } else {
+            console.log("DOES NOT exist:", CHANGELOG_FILE_PATH);
         }
-        )
-        stream.end();
 
         // Add git commit
         console.log('Adding git commit')

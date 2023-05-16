@@ -6,6 +6,12 @@ This repo uses the GitHub API and GitHub Actions to automatically create a chang
 
 ### Chore
 
+- (ci): attempt to write changelog
+
+## v1.0.18-alpha.3
+
+### Chore
+
 - (ci): hoist imports
 
 ## v1.0.18-alpha.2
