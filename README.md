@@ -2,6 +2,12 @@
 
 This repo uses the GitHub API and GitHub Actions to automatically create a changelog from conventional commits when a tag is pushed to this repo.
 
+## v1.0.18-beta.12
+
+### Chore
+
+- (ci): use token
+
 ## v1.0.18-beta.11
 
 ### Chore
