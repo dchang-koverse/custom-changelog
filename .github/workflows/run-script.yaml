@@ -34,7 +34,11 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit Changelog
+        env:
+          CI_COMMIT_AUTHOR: Koverse CI
         run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "koversebot@users.noreply.github.com"
           git add CHANGELOG.md
           git commit -m "chore: update CHANGELOG.md [skip ci]"
           git push
