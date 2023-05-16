@@ -39,4 +39,4 @@ jobs:
           add: 'CHANGELOG.md'
           committer_name: GitHub Actions
           committer_email: actions@github.com
-          push: 'origin main --force'
+          push: 'origin HEAD:${{ github.head_ref }}'
