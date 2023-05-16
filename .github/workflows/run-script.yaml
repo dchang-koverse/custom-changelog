@@ -34,8 +34,7 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit Changelog
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'chore: update changelog'
-          add: 'CHANGELOG.md'
-          push: 'origin HEAD:refs/heads/main'
+        run: |
+          git add CHANGELOG.md
+          git commit -m "chore: update CHANGELOG.md [skip ci]"
+          git push
