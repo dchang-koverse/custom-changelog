@@ -3,6 +3,9 @@ on:
     tags:
       - '*'
 
+name:
+  'Create Release from Tag'
+
 jobs:
   use_api_via_script:
     runs-on: ubuntu-latest
@@ -21,9 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm install octokit
   
-      - name: Run script
+      - name: Generate Release Notes
         run: |
           node index.js
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit Changelog
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'chore: update changelog'
+          add: 'CHANGELOG.md'
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          
+
   
