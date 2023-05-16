@@ -99,19 +99,28 @@ const createChangeLog = async () => {
         if (!fs.existsSync(CHANGELOG_FILE_PATH)) {
             // create it
             console.log('CHANGELOG file does not exist--creating CHANGELOG.md')
-            fs.writeFile(CHANGELOG_FILE_PATH, '# CHANGELOG\n', function (err) {
+            fs.writeFile('CHANGELOG.md', '# CHANGELOG\n', function (err) {
                 console.error('Error creating CHANGELOG file:', err)
             })
+            console.log('Created new CHANGELOG file')
         }
 
+        console.log('Appending release notes to CHANGELOG file')
+        
         const data = fs.readFileSync(CHANGELOG_FILE_PATH).toString().split("\n");
 
-        data.splice(2, 0, `## ${newestTag}\n`);
+        let idx = 2;
+
+        data.splice(idx++, 0, `## ${newestTag}\n`);
 
         changeLogMap.forEach((value, key) => {
-            data.splice(3, 0, `### ${CHANGE_TYPE_TO_HEADER[key]}\n`);
-            value.forEach(message => {
-                data.splice(4, 0, `- ${message}`);
+            data.splice(idx++, 0, `### ${CHANGE_TYPE_TO_HEADER[key]}\n`);
+            value.forEach((message, index) => {
+                if (index === value.length - 1) {
+                    data.splice(idx++, 0, `- ${message}`);
+                } else {
+                    data.splice(idx++, 0, `- ${message}\n`);
+                }
             })
         })
 
