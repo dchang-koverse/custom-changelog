@@ -104,6 +104,8 @@ const createChangeLog = async () => {
             })
         }
 
+        const data = fs.readFileSync(CHANGELOG_FILE_PATH).toString().split("\n");
+
         data.splice(2, 0, `## ${newestTag}\n`);
 
         changeLogMap.forEach((value, key) => {
