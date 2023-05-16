@@ -99,11 +99,9 @@ const createChangeLog = async () => {
         if (!fs.existsSync(CHANGELOG_FILE_PATH)) {
             // create it
             console.log('CHANGELOG file does not exist--creating CHANGELOG.md')
-            const data = fs.readFileSync(CHANGELOG_FILE_PATH).toString().split("\n");
-            data.splice(0, 0, `# CHANGELOG\n`);
-            fs.writeFile(CHANGELOG_FILE_PATH, editedText, function (err) {
-                if (err) return err;
-            });
+            fs.writeFile(CHANGELOG_FILE_PATH, '# CHANGELOG\n', function (err) {
+                console.error('Error creating CHANGELOG file:', err)
+            })
         }
 
         data.splice(2, 0, `## ${newestTag}\n`);
